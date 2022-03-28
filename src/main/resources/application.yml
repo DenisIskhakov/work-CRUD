@@ -1,0 +1,41 @@
+logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
+#    2022-03-28 18:09:47,379 INFO ru.sitronics.tn.transneftcontract.service.ContractService [http-nio-8080-exec-1] Getting all contract []
+    file: "%d %p %c{2.2} [%t] %m%n"
+  level:
+#      org.springframework.web: DEBUG
+      org.hibernate.type: TRACE
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      org.hibernate.SQL: DEBUG
+      ru.sitronics.tn.transneftcontract.service: INFO
+
+
+
+  file:
+    name: logs/dev_app.log
+
+spring:
+  datasource:
+    url: 'jdbc:postgresql://213.108.129.175:5432/postgres'
+    username: postgres
+    password: transneft
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      database: postgres
+      database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+      generate-ddl: true
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comments: true
+        format_sql: true
+        ddl-auto: update
+server:
+  port: '8080'
+org:
+  hibernate:
+    type:
+      descriptor:
+        sql:
+          BasicBinder: trace

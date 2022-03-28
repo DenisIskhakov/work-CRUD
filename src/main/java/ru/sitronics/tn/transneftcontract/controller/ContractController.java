@@ -1,5 +1,6 @@
 package ru.sitronics.tn.transneftcontract.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sitronics.tn.transneftcontract.model.Contract;
@@ -10,13 +11,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/contract")
+@Slf4j
 public class ContractController {
     @Autowired
     private ContractService contractsService;
 
     @GetMapping
     public List<Contract> findByAll(){
-        return contractsService.findByAll();
+        List<Contract> contracts = contractsService.findByAll();
+        log.info("Getting all contract " + contracts);
+        return contracts;
     }
 
     @GetMapping("/{id}")
