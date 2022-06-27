@@ -6,7 +6,7 @@ plugins {
 
 group = 'ru.sitronics.tn'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -23,6 +23,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.6'
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testImplementation 'com.h2database:h2:2.1.214'
+    implementation 'com.h2database:h2:2.1.210'
 
 
     compileOnly 'org.projectlombok:lombok'

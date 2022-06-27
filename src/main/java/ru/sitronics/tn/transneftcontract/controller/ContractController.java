@@ -35,4 +35,9 @@ public class ContractController {
     public Contract delete(@PathVariable Long id){
         return contractsService.deleteById(id);
     }
+
+    @PostMapping("/postMapping")
+    public Iterable<Contract> postMapping(@RequestBody List<Contract> contracts){
+        return contractsService.saveAll(contracts);
+    }
 }

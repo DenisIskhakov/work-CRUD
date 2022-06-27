@@ -38,6 +38,10 @@ public class ContractService {
          contractRepository.deleteById(id);
         return contractDel;
     }
+    public Iterable<Contract> saveAll(List<Contract> contract){
+        return contractRepository.saveAll(contract);
+    }
+
 
 
 }
