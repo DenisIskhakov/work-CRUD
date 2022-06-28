@@ -22,8 +22,9 @@ public class ContractServiceSpecificationController {
     public List<Contract> findAll(@RequestParam(value = "field") String field, @RequestParam(value = "value") Long value){
         return contractServiceSpecification.findByfield(field, value);
     }
-    @PostMapping
+    @PostMapping("/specification")
     public List<Contract> findSpecification(@RequestBody List<SpecificationItem> lists){
         // specification -> в список predicatov с поомщью цикла for
+        return  contractServiceSpecification.findByfield1(lists);
     }
 }

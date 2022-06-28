@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SpecificationItem {
-    private Long field;
-    private String value;
+    private String field;
+    private Long value;
 
 
     //
