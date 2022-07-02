@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TransneftContractApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(TransneftContractApplication.class, args);
     }
 

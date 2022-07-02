@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,18 +44,42 @@ public class ContractServiceSpecification {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Contract> criteriaQuery = criteriaBuilder.createQuery(Contract.class);
         Root<Contract> root = criteriaQuery.from(Contract.class);
-        Predicate basicPredicate = criteriaBuilder.conjunction(); // базовый предикат безусловный
-
-        for(SpecificationItem specificationItem : specificationItems){
-            Predicate predicate = criteriaBuilder.equal(root.get(specificationItem.getField()),specificationItem.getValue());
-            //ставим and- выполниться должно  либо 1 либо 2(совпадать) ,ставим or или 1 или 2
-            basicPredicate = criteriaBuilder.or(basicPredicate,predicate);
-            // просуммировать все предикаты и добавить !!!! ДЗ
-
-        }
-
-//        Predicate predicate = criteriaBuilder.equal(root.get(field),value);
+        Predicate basicPredicate = criteriaBuilder.or(specificationItems
+                .stream()
+                .map(s -> criteriaBuilder.equal(root.get(s.getField()),s.getValue())) // из специфакиции в STEAM Predicate [до этого стрим спецификаций]
+                .toArray(Predicate[]::new));  // сделали массив предикатов
         criteriaQuery.where(basicPredicate);
         return entityManager.createQuery(criteriaQuery).getResultList();
+
     }
+    public List<Contract> contractsList(List<SpecificationItem> list) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Contract> criteriaQuery = criteriaBuilder.createQuery(Contract.class);
+        Root<Contract> root = criteriaQuery.from(Contract.class);
+
+        //criteriaQuery.select(root);
+        Predicate predicate = criteriaBuilder.conjunction();
+        for (SpecificationItem specificationItem : list) {
+            predicate = criteriaBuilder.or(predicate, criteriaBuilder.equal(root.get(specificationItem.getField()), specificationItem.getValue()));
+
+
+        }
+        criteriaQuery.where(predicate);
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+
+//    public List<Client> clientsListOr (List<CriteriaParam> list) {
+//        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Client> criteriaQuery = criteriaBuilder.createQuery(Client.class);
+//        Root<Client> root = criteriaQuery.from(Client.class);
+//
+//        //criteriaQuery.select(root);
+//        Predicate predicate = criteriaBuilder.conjunction();
+//        for (CriteriaParam criteriaParam : list) {
+//            predicate = criteriaBuilder.or(predicate, criteriaBuilder.equal(root.get(criteriaParam.getName()), criteriaParam.getValue()));
+//        }
+//        criteriaQuery.where(predicate);
+//        return entityManager.createQuery(criteriaQuery).getResultList();
+//    }
 }
